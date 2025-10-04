@@ -1,0 +1,19 @@
+npm init -y
+npm i express dotenv cors axios
+npm i --save-dev nodemon
+
+npm i @neondatabase/serverless
+
+npm i jsonwebtoken bcryptjs
+
+## db table
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    role TEXT NOT NULL CHECK (role IN ('admin', 'manager', 'user'))
+
+    created_at timestamptz default now(),
+    updated_at timestamptz default now()
+)
