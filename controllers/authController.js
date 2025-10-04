@@ -22,14 +22,16 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await sql`SELECT * FROM users WHERE email = ${email}`;
-    if (user.length === 0) {
+    const users = await sql`SELECT * FROM users WHERE email = ${email}`;
+    const user = users[0]
+
+    if (!user) {
       return res
         .status(404)
         .json({ message: `user ${email} not found`, success: false });
     }
 
-    const isMatch = await bcrypt.compare(password, user[0].password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res
         .status(400)
